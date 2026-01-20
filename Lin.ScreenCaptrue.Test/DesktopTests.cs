@@ -1,4 +1,5 @@
-﻿using Lin.ScreenCapture;
+﻿using System.Runtime.Versioning;
+using Lin.ScreenCapture;
 
 namespace Lin.ScreenCaptrue.Test
 {
@@ -6,28 +7,31 @@ namespace Lin.ScreenCaptrue.Test
     public sealed class DesktopTests
     {
         [TestMethod]
+        [SupportedOSPlatform("windows")]
         public void Constructor_ShouldInitializeCorrectly()
         {
-            var desktop = new Desktop();
+            using var desktop = new Desktop();
             Assert.IsTrue(desktop.Width > 0);
             Assert.IsTrue(desktop.Height > 0);
             Assert.AreEqual(1, desktop.Scale);
         }
 
         [TestMethod]
+        [SupportedOSPlatform("windows")]
         public void Dispose_ShouldReleaseResourcesCorrectly()
         {
-            var desktop = new Desktop();
+            using var desktop = new Desktop();
             desktop.Dispose();
             // No exception should be thrown during disposal
         }
 
         [TestMethod]
+        [SupportedOSPlatform("windows")]
         public void GetSKBitmap_ShouldReturnResizedBitmap()
         {
-            var desktop = new Desktop();
+            using var desktop = new Desktop();
             desktop.ScaleSize(0.5);
-            var bitmap = desktop.GetSKBitmap();
+            using var bitmap = desktop.GetSKBitmap();
 
             Assert.IsNotNull(bitmap);
             Assert.AreEqual((int)(desktop.Width * 0.5), bitmap.Width);
@@ -35,9 +39,10 @@ namespace Lin.ScreenCaptrue.Test
         }
 
         [TestMethod]
+        [SupportedOSPlatform("windows")]
         public void ScaleSize_ShouldUpdateScaleCorrectly()
         {
-            var desktop = new Desktop();
+            using var desktop = new Desktop();
             desktop.ScaleSize(2);
             Assert.AreEqual(2, desktop.Scale);
         }

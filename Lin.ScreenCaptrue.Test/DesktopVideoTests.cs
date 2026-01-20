@@ -1,4 +1,5 @@
-﻿using Lin.ScreenCapture;
+﻿using System.Runtime.Versioning;
+using Lin.ScreenCapture;
 
 namespace Lin.ScreenCaptrue.Test
 {
@@ -6,10 +7,11 @@ namespace Lin.ScreenCaptrue.Test
     public class DesktopVideoTests
     {
         [TestMethod]
+        [SupportedOSPlatform("windows")]
         public void Constructor_ShouldInitializeCorrectly()
         {
-            var desktop = new Desktop();
-            var desktopVideo = new DesktopVideo(desktop);
+            using var desktop = new Desktop();
+            using var desktopVideo = new DesktopVideo(desktop);
 
             Assert.IsNotNull(desktopVideo.Desktop);
             Assert.AreEqual(desktop.Width, desktopVideo.Width);
@@ -19,30 +21,33 @@ namespace Lin.ScreenCaptrue.Test
         }
 
         [TestMethod]
+        [SupportedOSPlatform("windows")]
         public void ScaleSize_ShouldUpdateScaleCorrectly()
         {
-            var desktop = new Desktop();
-            var desktopVideo = new DesktopVideo(desktop);
+            using var desktop = new Desktop();
+            using var desktopVideo = new DesktopVideo(desktop);
 
             desktopVideo.ScaleSize(2);
             Assert.AreEqual(2, desktopVideo.Scale);
         }
 
         [TestMethod]
+        [SupportedOSPlatform("windows")]
         public void Dispose_ShouldReleaseResourcesCorrectly()
         {
-            var desktop = new Desktop();
-            var desktopVideo = new DesktopVideo(desktop);
+            using var desktop = new Desktop();
+            using var desktopVideo = new DesktopVideo(desktop);
 
             desktopVideo.Dispose();
             // No exception should be thrown during disposal
         }
 
         [TestMethod]
+        [SupportedOSPlatform("windows")]
         public void GetBitmaps_ShouldReturnCorrectNumberOfFrames()
         {
-            var desktop = new Desktop();
-            var desktopVideo = new DesktopVideo(desktop);
+            using var desktop = new Desktop();
+            using var desktopVideo = new DesktopVideo(desktop);
 
             int fps = 2;
             var cancellationTokenSource = new CancellationTokenSource();
@@ -53,6 +58,7 @@ namespace Lin.ScreenCaptrue.Test
                 Assert.IsNotNull(frame);
                 Assert.AreEqual(desktop.Width, frame.Width);
                 Assert.AreEqual(desktop.Height, frame.Height);
+                frame.Dispose();
             }
         }
     }
